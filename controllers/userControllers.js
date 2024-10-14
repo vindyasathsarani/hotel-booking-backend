@@ -1,6 +1,9 @@
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // Create a new user and hash their password
 export function postUsers(req, res) {
@@ -58,7 +61,9 @@ export function loginUser(req, res) {
         lastName: user.lastName,
         type: user.type,
       };
-      const token = jwt.sign(payload, "secret", { expiresIn: "48h" });
+      const token = jwt.sign(payload, process.env.JWT_KEY, {
+        expiresIn: "48h",
+      });
 
       // Return success response with the token
       res.json({

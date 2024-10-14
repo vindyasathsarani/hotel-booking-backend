@@ -2,7 +2,7 @@ import Category from "../models/category.js";
 
 export function createCategory(req, res) {
   if (req.user == null) {
-    res.status(400).json({
+    res.status(401).json({
       message: "Unauthorized",
     });
     return;

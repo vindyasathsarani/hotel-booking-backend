@@ -27,6 +27,8 @@ export function createRoom(req, res) {
     });
 }
 
+//delete room
+
 export function deleteRoom(req, res) {
   if (!isAdminVaid(req)) {
     res.status(403).json({
@@ -45,6 +47,31 @@ export function deleteRoom(req, res) {
     .catch(() => {
       res.json({
         message: "Room deletion failed",
+      });
+    });
+}
+
+///find room
+
+export function findRoomById(req, res) {
+  const roomId = req.params.roomId;
+  Room.findOne({ roomId: roomId })
+    .then((result) => {
+      if (result == null) {
+        res.status(404).json({
+          message: "Room not found",
+        });
+      } else {
+        res.json({
+          message: "Room found",
+          result: result,
+        });
+      }
+    })
+    .catch((err) => {
+      res.json({
+        message: "Room search failed",
+        error: err,
       });
     });
 }

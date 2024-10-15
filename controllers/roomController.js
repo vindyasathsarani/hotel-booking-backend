@@ -91,3 +91,37 @@ export function getRooms(req, res) {
       });
     });
 }
+
+//update room
+
+export function updateRoom(req, res) {
+  if (!isAdminVaid(req)) {
+    // Call the function with req
+    res.status(403).json({
+      message: "Forbidden",
+    });
+    return;
+  }
+
+  const roomId = req.params.roomId;
+
+  Room.findOneAndUpdate({ roomId: roomId }, req.body, { new: true })
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          message: "Room not found",
+        });
+      }
+      res.json({
+        message: "Room updated successfully",
+        result: result,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.json({
+        message: "Room update failed",
+        error: err,
+      });
+    });
+}

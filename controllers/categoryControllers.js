@@ -1,4 +1,5 @@
 import Category from "../models/category.js";
+import { isAdminVaid } from "./userControllers.js";
 
 // Create a new category
 
@@ -122,14 +123,4 @@ export function updateCategory(req, res) {
         message: "Category update failed",
       });
     });
-}
-
-function isAdminVaid(req) {
-  if (req.user == null) {
-    return false;
-  }
-  if (req.user.type != "admin") {
-    return false;
-  }
-  return true;
 }

@@ -1,5 +1,7 @@
 import Category from "../models/category.js";
 
+// Create a new category
+
 export function createCategory(req, res) {
   if (req.user == null) {
     res.status(401).json({
@@ -59,6 +61,8 @@ export function deletecategory(req, res) {
     });
 }
 
+// Get category list
+
 export function getCategory(req, res) {
   Category.find()
     .then((result) => {
@@ -72,6 +76,8 @@ export function getCategory(req, res) {
       });
     });
 }
+
+// Get category list by name
 
 export function getCategoryByName(req, res) {
   const name = req.params.name;
@@ -92,4 +98,38 @@ export function getCategoryByName(req, res) {
         message: "Failed to get category",
       });
     });
+}
+
+// Update category
+export function updateCategory(req, res) {
+  if (!isAdminVaid) {
+    res.staus(403).json({
+      message: "Unauthorized",
+    });
+    return;
+  }
+
+  const name = req.params.name;
+
+  Category.findOneAndUpdate({ name: name }, req.body)
+    .then(() => {
+      res.json({
+        message: "Category updated successfully",
+      });
+    })
+    .catch(() => {
+      res.json({
+        message: "Category update failed",
+      });
+    });
+}
+
+function isAdminVaid(req) {
+  if (req.user == null) {
+    return false;
+  }
+  if (req.user.type != "admin") {
+    return false;
+  }
+  return true;
 }

@@ -26,3 +26,25 @@ export function createRoom(req, res) {
       });
     });
 }
+
+export function deleteRoom(req, res) {
+  if (!isAdminVaid(req)) {
+    res.status(403).json({
+      message: "Forbidden",
+    });
+    return;
+  }
+  const roomId = req.params.roomId;
+
+  Room.findOneAndDelete({ roomId: roomId })
+    .then(() => {
+      res.json({
+        message: "Room deleted successfully",
+      });
+    })
+    .catch(() => {
+      res.json({
+        message: "Room deletion failed",
+      });
+    });
+}

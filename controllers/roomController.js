@@ -51,7 +51,7 @@ export function deleteRoom(req, res) {
     });
 }
 
-///find room
+///find room by roomId
 
 export function findRoomById(req, res) {
   const roomId = req.params.roomId;
@@ -72,6 +72,22 @@ export function findRoomById(req, res) {
       res.json({
         message: "Room search failed",
         error: err,
+      });
+    });
+}
+
+//find all rooms
+
+export function getRooms(req, res) {
+  Room.find()
+    .then((result) => {
+      res.json({
+        rooms: result,
+      });
+    })
+    .catch(() => {
+      res.json({
+        message: "Failed to get access",
       });
     });
 }

@@ -89,3 +89,14 @@ export function isAdminVaid(req) {
   }
   return true;
 }
+
+export function isCustomerValid(req) {
+  if (req.user == null) {
+    return false;
+  }
+
+  if (req.user.type !== "customer") {
+    return false;
+  }
+  return true;
+}
